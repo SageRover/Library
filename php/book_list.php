@@ -10,7 +10,7 @@ $arr = array();
 while ($row = mysqli_fetch_assoc($res)) {
     array_push($arr, $row);
 }
-ob_clean();
+ob_clean();//
 echo json_encode($arr,true);
 mysqli_close($conn);
 
