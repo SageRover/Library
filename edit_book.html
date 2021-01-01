@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--    以下都是我修改的最新最适合的Bootstrap4相关文件引入-->
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <!--    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+
+    <!--    &lt;!&ndash; bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js &ndash;&gt;-->
+    <!--    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>-->
+
+    <!--    &lt;!&ndash; 最新的 Bootstrap4 核心 JavaScript 文件 &ndash;&gt;-->
+    <!--    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+
+    <!--页面间传id值-->
+    <script>
+        $.ajax({
+            type: "get",
+            url: "php/book_list.php",
+            success: function (data) {
+                var arr = JSON.parse(data);
+                const Id = parseInt(window.location.search.substring(1,));
+                // alert(Id)
+                // alert(typeof (Id))
+                // alert(typeof (arr[Id].bookname))
+                // alert(document.getElementById("ISBN").placeholder)
+                document.getElementById("Id").value = arr[Id].Id;
+
+                document.getElementById("ISBN").value = arr[Id].ISBN;
+                document.getElementById("bookname").value = arr[Id].bookname;
+                document.getElementById("typeid").value = arr[Id].typeid;
+
+            },
+            error: function () {
+                alert("图书列表显示错误");
+            }
+        });
+        // window.onload = function () {
+        //     const id = window.location.search;
+        //     document.getElementsByName("name").value = arr[id].ISBN;
+        //     document.getElementsByName("sex").value = arr[id].bookname;
+        //     document.getElementsByName("phone").value = arr[id].typeid;
+        //
+        // };
+    </script>
+
+
+</head>
+<body>
+
+<style>
+    form {
+        margin: 20px auto;
+        width: 500px;
+        border: 1px solid #ccc;
+        padding: 20px
+    }
+</style>
+<!-- main_container starts here -->
+<div>
+    <form method="post" id="editbookform" >
+        <h1 >编辑藏书信息</h1>
+        <input type="text" id="Id"       name="Id"       class="form-control" value=""/><br/>
+        <input type="text" id="ISBN"     name="ISBN"       class="form-control" value=""/><br/>
+        <input type="text" id="bookname" name="bookname"   class="form-control" value=""/><br/>
+        <input type="text" id="typeid"   name="typeid"     class="form-control" value=""/><br/>
+        <button type="submit" class="btn btn-primary" onclick="editbook()">提交</button>
+        <div id="read"></div>
+
+    </form>
+</div>
+
+</body>
+<script type="text/javascript">
+    function editbook() {
+
+        let ISBN = editbookform.ISBN.value;
+        let bookname = editbookform.bookname.value;
+        let typeid = editbookform.typeid.value;
+        // var author = editbookform.author.value;
+        // var publisher = editbookform.publisher.value;
+        // var price = editbookform.price.value;
+        // var inTime = editbookform.inTime.value;
+        // var operator = editbookform.operator.value;
+
+        // console.log(ISBN);
+        // console.log(typeof ISBN);
+        // console.log(bookname);
+        // console.log(typeof bookname);
+        // console.log(typeid);
+        // console.log(typeof typeid);
+        // console.log(author);
+        // console.log(typeof author);
+        // console.log(publisher);
+        // console.log(typeof publisher);
+        // console.log(inTime);
+        // console.log(typeof inTime);
+        // console.log(operator);
+        // console.log(typeof operator);
+
+        // alert(typeof (parseInt(document.getElementById("Id").value)));
+        // alert(parseInt(document.getElementById("Id").value))
+        data={
+            Id:parseInt(document.getElementById("Id").value),
+            ISBN:ISBN,
+            bookname:bookname,
+            typeid:typeid,
+            // author:author,
+            // translator:null,
+            // publisher:publisher,
+            // price:price,
+            // page:null,
+            // bookcase:null,
+            // inTime:inTime,
+            // operator:operator
+        };
+//	data=JSON.stringify(data);
+//         alert(data);
+        console.log(data);
+        console.log(typeof data);
+
+        $.ajax({
+            method:"post",
+            url: "php/edit_book.php",//url
+            data: data,
+            success:function(result){
+//				var obj = JSON.parse(result);
+//				alert(obj.message);
+//                 alert(result);
+                console.log("看alert判断是否成功");
+
+
+            },
+            error:function(msg){
+                alert(msg);
+                console.log("失败了");
+
+            }
+        });
+    }
+</script>
+</html>

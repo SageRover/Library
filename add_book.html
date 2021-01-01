@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>网站后台管理模版</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/admin.css"/>
+    <!--
+     新 Bootstrap4 核心 CSS 文件
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    -->
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <!--
+     bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    -->
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <!--<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
+
+</head>
+<body>
+<form id="addbookform" class="layui-form column-content-detail" name="book_info" method="post"    >
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">文章内容</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">ISBN：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ISBN" required lay-verify="required" placeholder="请输入ISBN" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">书名：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="bookname" required lay-verify="required" placeholder="请输入书名" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分类栏目：</label>
+                    <div class="layui-input-block">
+                        <select name="typeid" lay-verify="required">
+                            <option value="">请选择分类栏目</option>
+                            <option value="1">1 计算机类</option>
+                            <option value="2">2 文学类</option>
+                            <option value="3">3 童话故事类</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">作者：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="author" required lay-verify="required" placeholder="请输入作者名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">出版社：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="publisher" required lay-verify="required" placeholder="请输入出版社名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">价格：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="price" required lay-verify="required" placeholder="请输入书的价格" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">入库时间：</label>
+                    <div class="layui-input-block">
+                        <input type="date" name="inTime" value="2020-12-26" required lay-verify="required" class="layui-input"/>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">操作员：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="operator"  required lay-verify="required" placeholder="请输入操作员" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style="padding-left: 10px;">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo" onclick="addbook()">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    function addbook() {
+        var ISBN = addbookform.ISBN.value;
+        var bookname = addbookform.bookname.value;
+        var typeid = addbookform.typeid.value;
+        var author = addbookform.author.value;
+        var publisher = addbookform.publisher.value;
+        var price = addbookform.price.value;
+        var inTime = addbookform.inTime.value;
+        var operator = addbookform.operator.value;
+
+        // console.log(ISBN);
+        // console.log(typeof ISBN);
+        // console.log(bookname);
+        // console.log(typeof bookname);
+        // console.log(typeid);
+        // console.log(typeof typeid);
+        // console.log(author);
+        // console.log(typeof author);
+        // console.log(publisher);
+        // console.log(typeof publisher);
+        // console.log(inTime);
+        // console.log(typeof inTime);
+        // console.log(operator);
+        // console.log(typeof operator);
+
+        data={
+            ISBN:ISBN,
+            bookname:bookname,
+            typeid:typeid,
+            author:author,
+            translator:null,
+            publisher:publisher,
+            price:price,
+            page:null,
+            bookcase:null,
+            inTime:inTime,
+            operator:operator
+        };
+//	data=JSON.stringify(data);
+//         alert(data);
+        console.log(data);
+        console.log(typeof data);
+
+        $.ajax({
+            method:"post",
+            url: "php/add_book.php",//url
+            data: data,
+            success:function(result){
+//				var obj = JSON.parse(result);
+//				alert(obj.message);
+                alert(result);
+                console.log("看alert判断是否成功");
+
+
+
+            },
+            error:function(msg){
+                alert(msg);
+                console.log("失败了");
+
+            }
+        });
+    }
+</script>
+<script src="../../static/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/admin/js/common.js" type="text/javascript" charset="utf-8"></script>
+<!--layui框架的东西-->
+<script>
+    layui.use(['form', 'jquery', 'laydate', 'layer', 'laypage', 'dialog', 'common', 'tool', 'element', 'upload', 'layedit'], function() {
+        var form = layui.form(),
+            layer = layui.layer,
+            $ = layui.jquery,
+            laypage = layui.laypage,
+            laydate = layui.laydate,
+            layedit = layui.layedit,
+            common = layui.common,
+            tool = layui.tool,
+            element = layui.element(),
+            dialog = layui.dialog;
+
+        //获取当前iframe的name值
+        var iframeObj = $(window.frameElement).attr('name');
+        //创建一个编辑器
+        var editIndex = layedit.build('LAY_demo_editor', {
+            tool: ['strong' //加粗
+                , 'italic' //斜体
+                , 'underline' //下划线
+                , 'del' //删除线
+                , '|' //分割线
+                , 'left' //左对齐
+                , 'center' //居中对齐
+                , 'right' //右对齐
+                , 'link' //超链接
+                , 'unlink' //清除链接
+                , 'image' //插入图片
+            ],
+            height: 100
+        })
+        //全选
+        form.on('checkbox(allChoose)', function(data) {
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function(index, item) {
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+        form.render();
+
+        layui.upload({
+            url: '上传接口url',
+            success: function(res) {
+                console.log(res); //上传成功返回值，必须为json格式
+            }
+        });
+    });
+</script>
+</body>
+</html>
