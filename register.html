@@ -1,0 +1,98 @@
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>我的“书屋”</title>
+    <link rel="stylesheet" href="css/index.css"/>
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+<img src="img/bgImg.jpg" class="bgImg"/>
+<div class="content">
+    <div class="bidTitle">我的“书屋”注册</div>
+    <div class="logCon">
+        <?php if (!$_SESSION['admin'] === true) { ?>
+        <form >
+            <div class="line"><span>账&emsp;&emsp;号 ：</span>
+                <input class="bt_input" type="text" id="username" name="username" placeholder="请输入用户名"/>
+            </div>
+            <div class="line"><span>密&emsp;&emsp;码 ：</span>
+                <input class="bt_input" type="password" id="password" name="password" placeholder="请输入密码"/>
+            </div>
+            <div class="line"><span>确认密码 ：</span>
+                <input class="bt_input" type="password"  id="password2" name="password2" placeholder="请再次确认密码"/>
+            </div>
+            <div class="line"><span>电&emsp;&emsp;话 ：</span>
+                <input class="bt_input" type="text"  id="phone" name="phone" placeholder="请输入电话号码"/>
+            </div>
+            <div class="line"><span>学&emsp;&emsp;院 ：</span>
+                <select name="select" class="select_input">
+                    <option value="bookname">bookname</option>
+                    <option value="Id">Id</option>
+                    <option value="ISBN">ISBN</option>
+                    <option value="author">author</option>
+                    <option value="publisher">publisher</option>
+                </select>
+                <input class="bt_input" type="text"  id="college" name="password" placeholder="请选择所在学院"/>
+            </div>
+
+            <style type = “text/css”>
+                #a-register{
+                    color: #1b809e; text-decoration:none;
+                }
+            </style>
+
+            <div class="remember">
+                <input type="checkbox" id="admin_check" tabindex="4" value="管理员">
+                <label>注册管理员</label>
+            </div>
+            <div>
+                <button type="submit" class="logingBut" onclick="register()">注册</button>
+            </div>
+<!--            <button type="button" class="logingBut" onclick="window.location.href='login.php'">返回</button>-->
+            <a href="login.php"><button type="button" class="logingBut" onclick="window.location.href='login.php'">返回</button></a>
+
+        </form>
+    </div>
+</div>
+<div style="text-align:center;">
+</div>
+<!--登录-->
+<script type="text/javascript">
+    function register() {
+        let usertype;
+        if (document.getElementById("admin_check").checked == true) {
+            console.log("管理员注册")
+            usertype = 1;
+        } else {
+            usertype = 2;
+            console.log("普通用户注册")
+        }
+
+        var data = {
+            usertype: usertype,
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value,
+            phone: document.getElementById("phone").value,
+            college: document.getElementById("college").value,
+        };
+        $.ajax({
+            method: "post",
+            url: "php/register.php",//url
+            data: data,
+            success: function (result) {
+                    alert(result);
+            },
+            error: function (msg) {
+                alert(msg);
+                console.log("失败了");
+            }
+        });
+    }
+</script>
+</body>
+</html>

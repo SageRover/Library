@@ -1,4 +1,18 @@
 <!doctype html>
+<?php
+//  防止全局变量造成安全隐患
+$admin = false;
+//  启动会话，这步必不可少
+session_start();
+//  判断是否登陆
+if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
+    echo "您已经成功登陆";
+} else {
+    //  验证失败，将 $_SESSION["admin"] 置为 false
+    $_SESSION["admin"] = false;
+    die("您无权访问");
+}
+?>
 <!--lang属性对每张页面中的主要语言进行声明，也只是个声明，主要是根据W3C标准，对搜索引擎和浏览器友好。-->
 <html lang="zh-CN">
 <head>
