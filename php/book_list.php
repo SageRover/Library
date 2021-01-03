@@ -14,4 +14,3 @@ ob_clean();//
 echo json_encode($arr,true);
 mysqli_close($conn);
 
-?>

@@ -6,18 +6,23 @@ $admin = false;
 session_start();
 //  判断是否登陆
 if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
-    echo "您已经成功登陆";
+//    echo "您已经成功登陆";
 } else {
     //  验证失败，将 $_SESSION["admin"] 置为 false
     $_SESSION["admin"] = false;
-    die("您无权访问");
+
+//    echo("您无权访问");
+    //重定向浏览器
+    header("Location: login.php");
+    //确保重定向后，后续代码不会被执行
+    exit;
 }
 ?>
 <!--lang属性对每张页面中的主要语言进行声明，也只是个声明，主要是根据W3C标准，对搜索引擎和浏览器友好。-->
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <title>test1</title>
+    <title>我的“书屋”</title>
     <!--    以下都是我修改的最新最适合的Bootstrap4相关文件引入-->
     <!-- 新 Bootstrap4 核心 CSS 文件 -->
     <!--    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">-->
@@ -39,6 +44,8 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             crossorigin="anonymous"></script>
+
+    <link rel="icon" type="image/x-icon" href="img/library.png" />
 
 </head>
 
@@ -63,7 +70,7 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading"><h1>顾客列表</h1></div>
+    <div class="panel-heading"><h1>图书列表</h1></div>
     <div class="panel-body">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </div>
@@ -200,11 +207,11 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
         // alert(typeof ($("select option:selected").text()))
         // $("select option:selected").text()
         // alert(select_value.value);
-        var value=select_value.value
+        var value = select_value.value
         console.log(value)
         console.log(typeof (value))
 
-        if (value==""){
+        if (value == "") {
             alert("请输入值再点击查询");
             window.location.reload();
         }

@@ -32,6 +32,8 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="img/library.png" />
+
 </head>
 
 <body>
@@ -67,7 +69,7 @@ if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
             </form>
         <?php } else { ?>
             <h1><?php echo $_SESSION['username'] . ' 已经登录'; ?></h1>
-            <button type="submit" class="logingBut" onclick="window.location.href='/index.html'">进入主页</button>
+            <button type="submit" class="logingBut" onclick="window.location.href='index.php'">进入主页</button>
             <button type="submit" class="logingBut" onclick="exit()">退出</button>
         <?php } ?>
     </div>

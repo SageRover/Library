@@ -46,6 +46,7 @@ if (!empty($userInfo)) {
     $_SESSION["admin"] = true;
     $_SESSION["username"] = $username;
 
+
 } else {
 //    echo $query;
 //    echo $usertype;

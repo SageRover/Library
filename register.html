@@ -1,4 +1,3 @@
-
 <html>
 
 <head>
@@ -8,6 +7,8 @@
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="img/library.png"/>
+
 </head>
 
 <body>
@@ -16,18 +17,20 @@
     <div class="bidTitle">我的“书屋”注册</div>
     <div class="logCon">
         <?php if (!$_SESSION['admin'] === true) { ?>
-        <form >
+        <form>
             <div class="line"><span>账&emsp;&emsp;号 ：</span>
-                <input class="bt_input" type="text" id="username" name="username" placeholder="请输入用户名"/>
+                <input class="bt_input" type="text" id="username" name="username" placeholder="请输入用户名"
+                       onblur="check_username()"/>
+                <span id="userinfo">&emsp;</span>
             </div>
             <div class="line"><span>密&emsp;&emsp;码 ：</span>
                 <input class="bt_input" type="password" id="password" name="password" placeholder="请输入密码"/>
             </div>
             <div class="line"><span>确认密码 ：</span>
-                <input class="bt_input" type="password"  id="password2" name="password2" placeholder="请再次确认密码"/>
+                <input class="bt_input" type="password" id="password2" name="password2" placeholder="请再次确认密码"/>
             </div>
             <div class="line"><span>电&emsp;&emsp;话 ：</span>
-                <input class="bt_input" type="text"  id="phone" name="phone" placeholder="请输入电话号码"/>
+                <input class="bt_input" type="text" id="phone" name="phone" placeholder="请输入电话号码"/>
             </div>
             <div class="line"><span>学&emsp;&emsp;院 ：</span>
                 <select name="select" class="select_input">
@@ -37,12 +40,13 @@
                     <option value="author">author</option>
                     <option value="publisher">publisher</option>
                 </select>
-                <input class="bt_input" type="text"  id="college" name="password" placeholder="请选择所在学院"/>
+                <input class="bt_input" type="text" id="college" name="password" placeholder="请选择所在学院"/>
             </div>
 
-            <style type = “text/css”>
-                #a-register{
-                    color: #1b809e; text-decoration:none;
+            <style type=“text/css”>
+                #a-register {
+                    color: #1b809e;
+                    text-decoration: none;
                 }
             </style>
 
@@ -53,8 +57,10 @@
             <div>
                 <button type="submit" class="logingBut" onclick="register()">注册</button>
             </div>
-<!--            <button type="button" class="logingBut" onclick="window.location.href='login.php'">返回</button>-->
-            <a href="login.php"><button type="button" class="logingBut" onclick="window.location.href='login.php'">返回</button></a>
+            <!--            <button type="button" class="logingBut" onclick="window.location.href='login.php'">返回</button>-->
+            <a href="login.php">
+                <button type="button" class="logingBut" onclick="window.location.href='login.php'">返回</button>
+            </a>
 
         </form>
     </div>
@@ -63,6 +69,48 @@
 </div>
 <!--登录-->
 <script type="text/javascript">
+    function check_username() {
+        console.log($("#username").val())
+        $.ajax({
+            method: "post",
+            url: "php/check_username.php",//url
+            data: {
+                username: $("#username").val()
+            },
+            success: function (result) {
+                // if (isEmpty(result)) {
+                //     //为空
+                // } else {
+                //     alert(result);
+                // }
+                // alert(result.toString())
+                // let str;
+                if (result.toString() === "OK") {
+                    // str = `<span  style="color:green">${result.toString()}</span>`
+                    $("#userinfo").css("color", "green");
+
+                } else {
+                    // str = `<span  style="color:red">${result.toString()}</span>`
+                    $("#userinfo").css("color", "red");
+                }
+                $("#userinfo").html(result)
+
+            },
+            error: function (msg) {
+                alert(msg);
+                console.log("失败了");
+            }
+        });
+    }
+
+    function isEmpty(obj) {
+        if (typeof obj == "undefined" || obj == null || obj == "") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function register() {
         let usertype;
         if (document.getElementById("admin_check").checked == true) {
@@ -72,20 +120,35 @@
             usertype = 2;
             console.log("普通用户注册")
         }
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const password2 = document.getElementById("password2").value;
+        const phone = document.getElementById("phone").value;
+        const college = document.getElementById("college").value;
+
+        if (isEmpty(username) || isEmpty(password) || isEmpty(password2) || isEmpty(phone) || isEmpty(college)) {
+            //为空
+            alert("注册信息不完整");
+            return
+        }
+        if (password !== password2) {
+            alert("两次密码不一样");
+            return
+        }
 
         var data = {
             usertype: usertype,
-            username: document.getElementById("username").value,
-            password: document.getElementById("password").value,
-            phone: document.getElementById("phone").value,
-            college: document.getElementById("college").value,
+            username: username,
+            password: password,
+            phone: phone,
+            college: college,
         };
         $.ajax({
             method: "post",
             url: "php/register.php",//url
             data: data,
             success: function (result) {
-                    alert(result);
+                alert(result);
             },
             error: function (msg) {
                 alert(msg);
